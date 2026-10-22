@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-使用 C# / Windows Forms 编写的 Windows Modbus RTU 桌面工具。
+使用 C# / Windows Forms 编写的 Windows Modbus RTU 桌面工具。 参考Modbus Poll。
 
 设计：Jim NI。版权所有 © 2026 Jim NI。采用 [MIT 许可证](LICENSE)。
 
