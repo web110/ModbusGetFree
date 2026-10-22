@@ -9,7 +9,7 @@ Design by Jim NI. Copyright © 2026 Jim NI. Licensed under the [MIT License](LIC
 Run `ModbusGetFree.exe`. Build with `./build.ps1` in PowerShell using the Windows .NET Framework compiler. No additional runtime packages are required. Open this folder in VS Code to edit the readable C# files under `src`.
 
 ## Features
-
+Refer to Modbus Poll V9 （open .mbp doc）
 - Serial RTU connection, shared-port scheduling, independent data windows and a hardware-free demo slave.
 - FC01/02/03/04 polling and FC05/06/15/16/17/22/23 operation windows.
 - Single writes: choose the wire function (05/15 or 06/16), inspect the result, optionally close after success.
