@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-Windows Modbus RTU desktop utility written in C# / Windows Forms.
+Windows Modbus RTU desktop utility written in C# / Windows Forms.  Refer to Modbus Poll.
 
 Design by Jim NI. Copyright © 2026 Jim NI. Licensed under the [MIT License](LICENSE).
 
