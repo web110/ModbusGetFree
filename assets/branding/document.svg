@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <path d="M5 2h17l5 5v17l-7 6H5z" fill="white" stroke="#222" stroke-width="1"/>
+  <path d="M22 2v6h5M20 30v-6h7" fill="#e5e5e5" stroke="#222" stroke-width="1"/>
+  <text x="7" y="12" font-family="Arial,sans-serif" font-size="6" fill="#d52b28">DOC1</text>
+  <path d="M7 16h17M7 20h17" fill="none" stroke="#888" stroke-width=".8"/>
+</svg>

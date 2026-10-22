@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Preferences xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Connection>
+    <Port>COM5</Port>
+    <Baud>9600</Baud>
+    <DataBits>8</DataBits>
+    <Parity>None</Parity>
+    <StopBits>One</StopBits>
+    <Timeout>1000</Timeout>
+    <Delay>20</Delay>
+    <RtsToggle>false</RtsToggle>
+    <Dtr>false</Dtr>
+    <RemoveEcho>false</RemoveEcho>
+    <Demo>false</Demo>
+  </Connection>
+  <AutoConnect>false</AutoConnect>
+  <Recent />
+</Preferences>
