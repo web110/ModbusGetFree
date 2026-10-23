@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -58,7 +58,7 @@ namespace ModbusGetFree
             pause.Click += (s, e) =>
             {
                 paused = !paused;
-                pause.Text = paused ? "Resume" : "Pause";
+                pause.Text = Language.Text(paused ? "Resume" : "Pause");
             };
             var clear = new ToolStripButton("Clear");
             clear.Click += (s, e) =>
@@ -91,7 +91,7 @@ namespace ModbusGetFree
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(this, ex.Message);
+                            LocalMessageBox.Show(this, ex.Message);
                         }
                     }
                 }
@@ -227,7 +227,7 @@ namespace ModbusGetFree
 
             if (all.Length == 0)
             {
-                g.DrawString("Select a value cell, then Display > Link to Chart > Series 1..12",
+                g.DrawString(Language.Text("Select a value cell, then Display > Link to Chart > Series 1..12"),
                      Font, Brushes.White, 80, 45);
                 return;
             }

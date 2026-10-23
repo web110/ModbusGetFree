@@ -589,7 +589,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "ModbusGetFree", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LocalMessageBox.Show(this, ex.Message, "ModbusGetFree", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -653,7 +653,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Quick Connect");
+                LocalMessageBox.Show(this, ex.Message, "Quick Connect");
             }
 
             await Task.FromResult(0);

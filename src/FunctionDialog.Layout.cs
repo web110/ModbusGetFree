@@ -195,7 +195,7 @@ namespace ModbusGetFree
                 var box = (CheckBox)table.Controls.Find(name + "Bit" + bit, true).Single();
                 int column = 15 - bit;
                 box.Text = "";
-                box.AccessibleName = name + " Mask bit " + bit;
+                box.AccessibleName = name + (Language.Chinese ? " 掩码位 " : " Mask bit ") + bit;
                 Place(group, box, 7 + column * 16 + (column / 4) * 6, 19, 16, 18);
             }
         }
@@ -210,7 +210,7 @@ namespace ModbusGetFree
                 {
                     coilList.BeginUpdate(); coilList.Items.Clear();
                     foreach (DataGridViewRow item in writeGrid.Rows)
-                        coilList.Items.Add("Coil " + item.Cells[0].Value, Convert.ToString(item.Cells[1].Value) == "1");
+                        coilList.Items.Add((Language.Chinese ? "线圈 " : "Coil ") + item.Cells[0].Value, Convert.ToString(item.Cells[1].Value) == "1");
                     coilList.EndUpdate();
                 }
                 if (registerList != null)
@@ -230,9 +230,9 @@ namespace ModbusGetFree
 
         void ShowResult(string text)
         {
-            if (resultLabel != null) resultLabel.Text = text;
-            else if (responseView != null) responseView.Text = text;
-            else if (readValues != null && text != "Response ok") { readValues.Items.Clear(); readValues.Items.Add(text); }
+            if (resultLabel != null) resultLabel.Text = Language.Text(text);
+            else if (responseView != null) responseView.Text = Language.Text(text);
+            else if (readValues != null && text != "Response ok") { readValues.Items.Clear(); readValues.Items.Add(Language.Text(text)); }
         }
 
         void ShowReadValues(byte[] response)

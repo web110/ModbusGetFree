@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -120,6 +120,7 @@ namespace ModbusGetFree
         public void RefreshContextMenu()
         {
             RefreshContextItems(Grid.ContextMenuStrip.Items);
+            Language.Items(Grid.ContextMenuStrip.Items);
         }
 
         void RefreshContextItems(ToolStripItemCollection items)

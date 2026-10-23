@@ -28,7 +28,7 @@ namespace ModbusGetFree
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(this, ex.Message);
+                        LocalMessageBox.Show(this, ex.Message);
                     }
                 }
             }
@@ -81,7 +81,7 @@ namespace ModbusGetFree
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(this, ex.Message);
+                        LocalMessageBox.Show(this, ex.Message);
                     }
                 }
             }

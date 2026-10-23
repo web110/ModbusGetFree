@@ -90,7 +90,7 @@ namespace ModbusGetFree
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    LocalMessageBox.Show(this, ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
             };

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -111,7 +111,7 @@ namespace ModbusGetFree
         {
             using (FileDialog dialog = save ? (FileDialog)new SaveFileDialog() : new OpenFileDialog())
             {
-                dialog.Filter = "Command list (*.txt)|*.txt|All files|*.*";
+                dialog.Filter = Language.Chinese ? "命令列表 (*.txt)|*.txt|所有文件|*.*" : "Command list (*.txt)|*.txt|All files|*.*";
                 if (dialog.ShowDialog(this) != DialogResult.OK) return;
                 if (save) SaveList(dialog.FileName); else OpenList(dialog.FileName);
             }
@@ -124,7 +124,7 @@ namespace ModbusGetFree
         void Append(string text)
         {
             if (IsDisposed) return;
-            output.Items.Add(text);
+            output.Items.Add(Language.Text(text));
             if (output.Items.Count > 1500) output.Items.RemoveAt(0);
             output.TopIndex = output.Items.Count - 1;
         }

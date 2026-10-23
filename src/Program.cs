@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,13 +15,14 @@ namespace ModbusGetFree
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.ThreadException += (s, e) => MessageBox.Show(e.Exception.Message, "Application Error");
+            Application.ThreadException += (s, e) => LocalMessageBox.Show(e.Exception.Message, "Application Error");
             if (args.Length > 0 && args[0] == "--render")
             {
                 Render(args.Length > 1 ? args[1] : "preview.png");
                 return;
             }
 
+            Language.Initialize();
             Application.Run(new MainWindow(false));
         }
 

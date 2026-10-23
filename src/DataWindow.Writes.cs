@@ -30,7 +30,7 @@ namespace ModbusGetFree
 
             if (State.Function == 2 || State.Function == 4)
             {
-                MessageBox.Show(this, "Discrete inputs and input registers are read-only.");
+                LocalMessageBox.Show(this, "Discrete inputs and input registers are read-only.");
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace ModbusGetFree
             int width = GroupWidth(definition);
             if (index + width > StorageQuantity)
             {
-                MessageBox.Show(this, "Incomplete value: increase register quantity.");
+                LocalMessageBox.Show(this, "Incomplete value: increase register quantity.");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace ModbusGetFree
             bool coil = State.Function == 1 || State.Function == 5 || State.Function == 15;
             if (State.Function == 2 || State.Function == 4)
             {
-                MessageBox.Show(this, "This data area is read-only.");
+                LocalMessageBox.Show(this, "This data area is read-only.");
                 return;
             }
 

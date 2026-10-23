@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
@@ -313,8 +313,10 @@ namespace ModbusGetFree
                 + ": F = " + State.Function.ToString("00") + ": SR = " + State.ScanRate + "ms"
                 + (State.Disabled ? "  Disabled" : "") + (State.ShowErrors ? "  Last = " + LastMs
                 + "ms" : "");
+            if (Language.Chinese) summaryText = summaryText.Replace("Tx = ", "发送 = ").Replace("Err = ", "错误 = ").Replace("ID = ", "从站 = ").Replace("F = ", "功能码 = ").Replace("SR = ", "周期 = ").Replace("Disabled", "已禁用").Replace("Last = ", "耗时 = ");
             if (summary.Text != summaryText) summary.Text = summaryText;
             string resultText = host.Bus.Connected ? lastMessage : "No connection";
+            resultText = Language.Text(resultText);
             if (result.Text != resultText) result.Text = resultText;
             Color color = !host.Bus.Connected || lastMessage.StartsWith("Error")
                 ? Color.Red : SystemColors.ControlText;
@@ -446,7 +448,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message);
+                LocalMessageBox.Show(this, ex.Message);
             }
         }
 

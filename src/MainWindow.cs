@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -61,6 +61,7 @@ namespace ModbusGetFree
             status.Font = UiFonts.Create();
             MainMenuStrip = menu;
             BuildAppMenus();
+            BuildLanguageMenu();
             BuildToolbar();
             status.Items.Add(connection);
             status.Items.Add(new ToolStripStatusLabel("Modbus RTU"));
@@ -244,7 +245,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LocalMessageBox.Show(this, ex.Message, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             await Task.FromResult(0);
@@ -259,7 +260,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message);
+                LocalMessageBox.Show(this, ex.Message);
             }
         }
 
@@ -318,7 +319,7 @@ namespace ModbusGetFree
             var definition = doc.SelectedDefinition;
             if (definition.Format != 0 && definition.Format != 1 && definition.Format != 4 && definition.Format != 5)
             {
-                MessageBox.Show(this, "Scaling is available for 16-bit and 32-bit integer groups.");
+                LocalMessageBox.Show(this, "Scaling is available for 16-bit and 32-bit integer groups.");
                 return;
             }
 

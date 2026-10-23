@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -169,7 +169,7 @@ namespace ModbusGetFree
                 {
                     string message = output.Text.Contains("Error:") || output.Text.StartsWith("Bus busy")
                         ? output.Text : unit.Value == 0 ? "Broadcast sent" : "Response ok";
-                    MessageBox.Show(this, message, Text, MessageBoxButtons.OK,
+                    LocalMessageBox.Show(this, message, Text, MessageBoxButtons.OK,
                         message == "Response ok" || message == "Broadcast sent" ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
                 }
             };
@@ -183,7 +183,7 @@ namespace ModbusGetFree
         Control MaskBits(TextBox source, string name)
         {
             var panel = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoScroll = true };
-            var caption = new Label { Text = name + " Mask bits (15 to 0)", AutoSize = true };
+            var caption = new Label { Text = name + (Language.Chinese ? " 掩码位（15 到 0）" : " Mask bits (15 to 0)"), AutoSize = true };
             panel.Controls.Add(caption); panel.SetFlowBreak(caption, true);
             var bits = new CheckBox[16]; bool syncing = false;
             for (int i = 15; i >= 0; i--)
@@ -224,10 +224,10 @@ namespace ModbusGetFree
         {
             using (FileDialog dialog = save ? (FileDialog)new SaveFileDialog() : new OpenFileDialog())
             {
-                dialog.Filter = "Values text|*.txt";
+                dialog.Filter = Language.Chinese ? "数值文本|*.txt" : "Values text|*.txt";
                 if (dialog.ShowDialog(this) != DialogResult.OK) return;
                 try { if (save) SaveValues(dialog.FileName); else LoadValues(dialog.FileName); }
-                catch (Exception ex) { MessageBox.Show(this, ex.Message, "Values"); }
+                catch (Exception ex) { LocalMessageBox.Show(this, ex.Message, "Values"); }
             }
         }
         public void EditSelectedValue(string text)

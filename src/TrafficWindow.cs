@@ -70,7 +70,7 @@ namespace ModbusGetFree
             copy.Click += (s, e) =>
             {
                 try { Clipboard.SetText(output.SelectionLength > 0 ? output.SelectedText : CaptureText); }
-                catch (Exception ex) { MessageBox.Show(this, ex.Message, "Copy"); }
+                catch (Exception ex) { LocalMessageBox.Show(this, ex.Message, "Copy"); }
             };
             FormClosed += (s, e) => StopLog();
             SetCapturing(true);
@@ -116,7 +116,7 @@ namespace ModbusGetFree
                 {
                     StopLog();
                     SetCapturing(false);
-                    MessageBox.Show(this, ex.Message, "Traffic log stopped");
+                    LocalMessageBox.Show(this, ex.Message, "Traffic log stopped");
                 }
             }
             if (StopOnError && entry.Text.StartsWith("ERR:", StringComparison.Ordinal)) SetCapturing(false);
@@ -159,7 +159,7 @@ namespace ModbusGetFree
             {
                 if (dialog.ShowDialog(this) != DialogResult.OK) return;
                 try { if (continuous) StartLog(dialog.FileName); else SaveTo(dialog.FileName); }
-                catch (Exception ex) { MessageBox.Show(this, ex.Message, "Traffic file"); }
+                catch (Exception ex) { LocalMessageBox.Show(this, ex.Message, "Traffic file"); }
             }
         }
     }

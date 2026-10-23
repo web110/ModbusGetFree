@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace ModbusGetFree
 {
@@ -9,6 +9,7 @@ namespace ModbusGetFree
     {
         public SerialSettings Connection = new SerialSettings();
         public bool AutoConnect;
+        public string Language = "en";
         public DocumentState Default;
         public List<string> Recent = new List<string>();
     }

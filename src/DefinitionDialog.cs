@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -309,7 +309,7 @@ namespace ModbusGetFree
                 byte[] bytes = Build();
                 rtu.Text = Modbus.Hex(bytes);
                 ascii.Text = AsciiPreview(bytes);
-                plc.Text = "PLC address = " + PlcAddress(Codes[function.SelectedIndex], int.Parse(address.Text));
+                plc.Text = (Language.Chinese ? "PLC 地址 = " : "PLC address = ") + PlcAddress(Codes[function.SelectedIndex], int.Parse(address.Text));
             }
             catch
             {
@@ -359,7 +359,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Read/Write Definition", MessageBoxButtons.OK,
+                LocalMessageBox.Show(this, ex.Message, "Read/Write Definition", MessageBoxButtons.OK,
                      MessageBoxIcon.Warning);
                 return false;
             }

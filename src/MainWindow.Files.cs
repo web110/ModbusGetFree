@@ -19,7 +19,7 @@ namespace ModbusGetFree
                 return true;
             }
 
-            var answer = MessageBox.Show(this, "Save changes to the workspace?",
+            var answer = LocalMessageBox.Show(this, "Save changes to the workspace?",
                  "Workspace", MessageBoxButtons.YesNoCancel);
             if (answer == DialogResult.Cancel)
             {
@@ -77,7 +77,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Save Error");
+                LocalMessageBox.Show(this, ex.Message, "Save Error");
                 return false;
             }
         }
@@ -119,7 +119,7 @@ namespace ModbusGetFree
                         ValidateWorkspace(w);
                         if (Bus.Connected)
                         {
-                            MessageBox.Show(this, "Disconnect before loading a workspace.");
+                            LocalMessageBox.Show(this, "Disconnect before loading a workspace.");
                             return;
                         }
 
@@ -140,7 +140,7 @@ namespace ModbusGetFree
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(this, ex.Message, "Open Error");
+                        LocalMessageBox.Show(this, ex.Message, "Open Error");
                     }
                 }
             }
@@ -248,6 +248,7 @@ namespace ModbusGetFree
                 {
                     Connection = Settings,
                     AutoConnect = autoConnect,
+                    Language = ModbusGetFree.Language.Chinese ? "zh-CN" : "en",
                     Default = defaultDocument,
                     Recent = recentFiles
                 };
@@ -258,7 +259,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "Preferences could not be saved: " + ex.Message);
+                LocalMessageBox.Show(this, "Preferences could not be saved: " + ex.Message);
             }
         }
 
@@ -284,6 +285,8 @@ namespace ModbusGetFree
                         Documents = prefs.Default == null ? new List<DocumentState>()
                             : new List<DocumentState> { prefs.Default }
                     });
+                    Language.Chinese = prefs.Language == "zh-CN";
+                    Language.Refresh();
                     Settings = prefs.Connection;
                     autoConnect = prefs.AutoConnect;
                     defaultDocument = prefs.Default;
@@ -370,7 +373,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Open Data Window");
+                LocalMessageBox.Show(this, ex.Message, "Open Data Window");
             }
         }
     }
