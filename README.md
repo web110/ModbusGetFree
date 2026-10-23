@@ -6,6 +6,12 @@ Windows Modbus RTU desktop utility written in C# / Windows Forms.  Refer to Modb
 
 Design by Jim NI. Copyright © 2026 Jim NI. Licensed under the [MIT License](LICENSE).
 
+## Main window
+
+![ModbusGetFree main window in English](assets/screenshots/main-window-en.png)
+
+Example data is shown for illustration. Switch languages under **View > Language/ 语言**.
+
 ## Run and build
 
 Run `ModbusGetFree.exe`. Build with `./build.ps1` in PowerShell using the Windows .NET Framework compiler. No additional runtime packages are required. Open this folder in VS Code to edit the readable C# files under `src`.
@@ -19,7 +25,7 @@ Run `ModbusGetFree.exe`. Build with `./build.ps1` in PowerShell using the Window
 - FC22: AND/OR masks with 32 individual bit controls.
 - FC23: separate read/write ranges, typed write editing and separate read results.
 - Independent display formats, scaling, fonts, colors, charting, traffic capture and a raw Test Center.
-- Save data windows as `.mpdoc`, workspaces as `.mprtu`; import supported 7000/9000 `.mbp` register archives. Supported imports include FC03/04 and verified 16-bit, float32 and unsigned32 formats. Unsupported layouts/scaling are rejected.
+- Save data windows as `.mpdoc`, workspaces as `.mprtu`; import supported V7.x/V9.x `.mbp` register archives. Supported imports include FC03/04 and verified 16-bit, float32 and unsigned32 formats. Unsupported layouts/scaling are rejected.
 
 Help Topics is built into the application. This README is developer documentation and is not linked from Help.
 

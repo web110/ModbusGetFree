@@ -6,6 +6,12 @@
 
 设计：Jim NI。版权所有 © 2026 Jim NI。采用 [MIT 许可证](LICENSE)。
 
+## 主界面截图
+
+![ModbusGetFree 中文主界面](assets/screenshots/main-window-zh-CN.png)
+
+截图使用示例数据展示界面。可通过 **视图 > Language/ 语言** 切换中英文。
+
 ## 运行与构建
 
 运行 `ModbusGetFree.exe` 即可启动。使用 PowerShell 执行 `./build.ps1`，通过 Windows .NET Framework 编译器构建。无需安装其他运行时包。可在 VS Code 中打开此文件夹，编辑 `src` 目录下的 C# 源文件。
@@ -19,7 +25,7 @@
 - FC22：AND/OR 掩码，提供 32 个独立位控件。
 - FC23：读写范围分别设置、类型化写入编辑，以及独立的读取结果。
 - 独立显示格式、缩放、字体和颜色设置，以及图表、通信流量捕获和原始数据测试中心。
-- 数据窗口可保存为 `.mpdoc`，工作区可保存为 `.mprtu`；支持导入 7000/9000 `.mbp` 寄存器档案。支持导入 FC03/04 以及经验证的 16 位、float32 和 unsigned32 格式。不支持的布局或缩放设置会被拒绝。
+- 数据窗口可保存为 `.mpdoc`，工作区可保存为 `.mprtu`；支持导入 V7.x/V9.x `.mbp` 寄存器档案。支持导入 FC03/04 以及经验证的 16 位、float32 和 unsigned32 格式。不支持的布局或缩放设置会被拒绝。
 
 应用程序内置“帮助主题”。本 README 是开发者文档，不会从应用程序的“帮助”菜单链接打开。
 
