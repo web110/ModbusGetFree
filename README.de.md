@@ -8,9 +8,9 @@ Design: Jim NI. Copyright © 2026 Jim NI. [MIT-Lizenz](LICENSE).
 
 ## Hauptfenster
 
-![Hauptfenster auf Englisch](assets/screenshots/main-window-en.png)
+![Hauptfenster auf Deutsch](assets/screenshots/main-window-de.png)
 
-Das Bild zeigt Beispieldaten und die englische Oberfläche.
+Das Bild zeigt die deutsche Oberfläche vor dem Verbindungsaufbau.
 
 ## Sprachen
 

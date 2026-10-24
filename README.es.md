@@ -8,9 +8,9 @@ Diseño: Jim NI. Copyright © 2026 Jim NI. Licencia [MIT](LICENSE).
 
 ## Ventana principal
 
-![Ventana principal en inglés](assets/screenshots/main-window-en.png)
+![Ventana principal en español](assets/screenshots/main-window-es.png)
 
-La captura muestra datos de ejemplo y la interfaz en inglés.
+La captura muestra la interfaz en español antes de conectar.
 
 ## Idiomas
 

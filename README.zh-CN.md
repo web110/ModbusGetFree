@@ -10,7 +10,7 @@
 
 ![ModbusGetFree 中文主界面](assets/screenshots/main-window-zh-CN.png)
 
-截图使用示例数据展示界面。可通过 **Language** 切换界面语言。
+截图为连接前的中文主界面。可通过 **Language** 切换界面语言。
 
 ## 界面语言
 

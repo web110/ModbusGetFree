@@ -8,9 +8,9 @@ C# / Windows Forms で開発した Windows 用 Modbus RTU デスクトップツ�
 
 ## メイン画面
 
-![英語のメイン画面](assets/screenshots/main-window-en.png)
+![日本語のメイン画面](assets/screenshots/main-window-ja.png)
 
-画像はサンプルデータを表示した英語の画面です。
+画像は接続前の日本語のメイン画面です。
 
 ## 言語
 

@@ -8,9 +8,9 @@ Projekt: Jim NI. Copyright © 2026 Jim NI. Licencja [MIT](LICENSE).
 
 ## Okno główne
 
-![Okno główne w języku angielskim](assets/screenshots/main-window-en.png)
+![Okno główne w języku polskim](assets/screenshots/main-window-pl.png)
 
-Zrzut przedstawia przykładowe dane i angielski interfejs.
+Zrzut przedstawia polski interfejs przed nawiązaniem połączenia.
 
 ## Języki
 

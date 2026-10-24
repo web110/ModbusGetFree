@@ -10,7 +10,7 @@ Design by Jim NI. Copyright © 2026 Jim NI. Licensed under the [MIT License](LIC
 
 ![ModbusGetFree main window in English](assets/screenshots/main-window-en.png)
 
-Example data is shown for illustration. Switch languages under **Language**.
+The screenshot shows the English interface before connecting. Switch languages under **Language**.
 
 ## Languages
 

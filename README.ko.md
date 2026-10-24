@@ -8,9 +8,9 @@ C# / Windows Forms로 개발한 Windows용 Modbus RTU 데스크톱 도구입니�
 
 ## 메인 화면
 
-![영어 메인 화면](assets/screenshots/main-window-en.png)
+![한국어 메인 화면](assets/screenshots/main-window-ko.png)
 
-이미지는 예제 데이터를 표시한 영어 화면입니다.
+이미지는 연결 전의 한국어 메인 화면입니다.
 
 ## 언어
 

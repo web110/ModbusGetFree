@@ -8,9 +8,9 @@ Design: Jim NI. Copyright © 2026 Jim NI. Licença [MIT](LICENSE).
 
 ## Janela principal
 
-![Janela principal em inglês](assets/screenshots/main-window-en.png)
+![Janela principal em português](assets/screenshots/main-window-pt.png)
 
-A imagem apresenta dados de exemplo e a interface em inglês.
+A imagem mostra a interface em português antes da ligação.
 
 ## Idiomas
 
