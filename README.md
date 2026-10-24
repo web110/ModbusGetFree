@@ -1,6 +1,6 @@
-﻿# ModbusGetFree
+# ModbusGetFree
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](README.md) | [简体中文](README.zh-CN.md) | [Español](README.es.md) | [Français](README.fr.md) | [Русский](README.ru.md) | [Português](README.pt.md) | [Polski](README.pl.md) | [日本語](README.ja.md) | [Deutsch](README.de.md) | [한국어](README.ko.md)
 
 Windows Modbus RTU desktop utility written in C# / Windows Forms.  Refer to Modbus Poll.
 
