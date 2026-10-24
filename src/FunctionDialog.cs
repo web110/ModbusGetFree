@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -45,6 +45,7 @@ namespace ModbusGetFree
         DataGridView writeGrid;
         CheckBox coilOn;
         RegisterDefinition selectedDefinition;
+        bool transmitting;
         Func<int, int, int, ushort[], Task> selectedWriter;
         public string ResultText { get { return output.Text; } }
 
@@ -73,7 +74,6 @@ namespace ModbusGetFree
 
         async Task TransmitSelected()
         {
-            if (host.InFlight) { ShowResult("Bus busy. Please try again."); return; }
             try
             {
                 ushort[] words = function == 5 ? new[] { (ushort)(coilOn.Checked ? 1 : 0) }
@@ -82,12 +82,17 @@ namespace ModbusGetFree
                     : words.Length > 1 || useFunction.SelectedIndex == 1 ? 16 : 6;
                 send.Enabled = false;
                 ShowResult("Waiting for response...");
-                await selectedWriter((int)unit.Value, code, (int)address.Value, words);
+                int slave = (int)unit.Value, start = (int)address.Value;
+                await host.RunManualOperation(async () =>
+                {
+                    if (IsDisposed) return;
+                    await selectedWriter(slave, code, start, words);
+                });
                 if (IsDisposed) return;
-                string result = unit.Value == 0 ? "Broadcast sent" : "Response ok";
+                string result = slave == 0 ? "Broadcast sent" : "Response ok";
                 output.Text = result;
                 ShowResult(result);
-                if (closeOnSuccess.Checked && unit.Value != 0) Close();
+                if (closeOnSuccess.Checked && slave != 0) Close();
             }
             catch (Exception ex)
             {
@@ -183,7 +188,7 @@ namespace ModbusGetFree
         Control MaskBits(TextBox source, string name)
         {
             var panel = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoScroll = true };
-            var caption = new Label { Text = name + (Language.Chinese ? " 掩码位（15 到 0）" : " Mask bits (15 to 0)"), AutoSize = true };
+            var caption = new Label { Text = name + (" " + Language.Text("Mask bits (15 to 0)")), AutoSize = true };
             panel.Controls.Add(caption); panel.SetFlowBreak(caption, true);
             var bits = new CheckBox[16]; bool syncing = false;
             for (int i = 15; i >= 0; i--)
@@ -224,7 +229,7 @@ namespace ModbusGetFree
         {
             using (FileDialog dialog = save ? (FileDialog)new SaveFileDialog() : new OpenFileDialog())
             {
-                dialog.Filter = Language.Chinese ? "数值文本|*.txt" : "Values text|*.txt";
+                dialog.Filter = Language.Text("Values text") + "|*.txt";
                 if (dialog.ShowDialog(this) != DialogResult.OK) return;
                 try { if (save) SaveValues(dialog.FileName); else LoadValues(dialog.FileName); }
                 catch (Exception ex) { LocalMessageBox.Show(this, ex.Message, "Values"); }
@@ -329,12 +334,20 @@ namespace ModbusGetFree
 
         public async Task Transmit()
         {
-            if (selectedWriter != null) { await TransmitSelected(); return; }
-            if (host.InFlight)
+            if (transmitting || IsDisposed) return;
+            transmitting = true;
+            send.Enabled = false;
+            try { await TransmitCore(); }
+            finally
             {
-                output.Text = "Bus busy. Please try again.";
-                return;
+                transmitting = false;
+                if (!IsDisposed) send.Enabled = true;
             }
+        }
+
+        async Task TransmitCore()
+        {
+            if (selectedWriter != null) { await TransmitSelected(); return; }
 
             try
             {
@@ -350,18 +363,28 @@ namespace ModbusGetFree
                 byte[] q = BuildRequest((int)unit.Value, selectedFunction, (int)address.Value,
                      words, ValueCodec.ParseWord(andMask.Text), ValueCodec.ParseWord(orMask.Text),
                      (int)readAddress.Value, (int)readQuantity.Value);
-                host.InFlight = true;
-                send.Enabled = false;
-                output.Text = "TX: " + Modbus.Hex(q) + "\r\n";
                 ShowResult("Waiting for response...");
-                byte[] r = await host.Bus.Exchange(q, function == 17 || function == 22 || function == 23);
+                byte[] r = null;
+                string description = null;
+                await host.RunManualOperation(async () =>
+                {
+                    if (IsDisposed) return;
+                    if (!host.Bus.Connected) throw new InvalidOperationException("Connect before sending a command.");
+                    host.InFlight = true;
+                    try
+                    {
+                        output.Text = "TX: " + Modbus.Hex(q) + "\r\n";
+                        r = await host.Bus.Exchange(q, function == 17 || function == 22 || function == 23);
+                        description = q[0] == 0 ? "Broadcast sent" : Modbus.DescribeResponse(r, q);
+                    }
+                    finally { host.InFlight = false; }
+                });
                 if (IsDisposed)
                 {
                     return;
                 }
 
                 output.AppendText("RX: " + Modbus.Hex(r) + "\r\n");
-                string description = q[0] == 0 ? "Broadcast sent" : Modbus.DescribeResponse(r, q);
                 output.AppendText(description);
                 if (readResult != null) readResult.Text = description;
                 ShowResult(q[0] == 0 ? "Broadcast sent" : "Response ok");
@@ -375,14 +398,6 @@ namespace ModbusGetFree
                 {
                     output.AppendText("\r\nError: " + ex.Message);
                     ShowResult(ex.Message);
-                }
-            }
-            finally
-            {
-                host.InFlight = false;
-                if (!IsDisposed)
-                {
-                    send.Enabled = true;
                 }
             }
         }

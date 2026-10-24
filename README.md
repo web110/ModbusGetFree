@@ -1,4 +1,4 @@
-# ModbusGetFree
+﻿# ModbusGetFree
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -10,7 +10,11 @@ Design by Jim NI. Copyright © 2026 Jim NI. Licensed under the [MIT License](LIC
 
 ![ModbusGetFree main window in English](assets/screenshots/main-window-en.png)
 
-Example data is shown for illustration. Switch languages under **View > Language/ 语言**.
+Example data is shown for illustration. Switch languages under **Language**.
+
+## Languages
+
+Default: **English**. Choose **Language** to switch among English, Simplified Chinese, Spanish, French, Russian, Portuguese, Polish, Japanese, German and Korean. The selected language is saved for the next launch. Menu access keys and Modbus data remain unchanged.
 
 ## Run and build
 
@@ -22,6 +26,7 @@ Run `ModbusGetFree.exe`. Build with `./build.ps1` in PowerShell using the Window
 - FC01/02/03/04 polling and FC05/06/15/16/17/22/23 operation windows.
 - Single writes: choose the wire function (05/15 or 06/16), inspect the result, optionally close after success.
 - Bulk writes: coil checklists, register value lists, 28 combined data type / byte order choices, typed editing and Open/Save value lists.
+- Manual FC05/06/15/16/17/22/23 sends wait for the current transaction, reserve the shared channel against new polls, and restore polling after the reply or an error/timeout. Scheduler ticks continue; missed periods are not replayed. Broadcast writes finish without a reply.
 - FC22: AND/OR masks with 32 individual bit controls.
 - FC23: separate read/write ranges, typed write editing and separate read results.
 - Independent display formats, scaling, fonts, colors, charting, traffic capture and a raw Test Center.
@@ -35,7 +40,7 @@ The original MBGF four-letter product icon is in `assets/branding`. The toolbar 
 
 ## Tests
 
-Run `./test.ps1`. Tests use their own temporary windows and the demo slave; they do not write to hardware. The suite covers protocol requests and validation, operation dialogs, serial port discovery, display formats, fonts, icons and window behavior. Generated executables, logs and screenshots stay under dated folders in `tests/run`, which is excluded from Git. The `.cs` files in `tests` are test source code and belong in the published project.
+Run `./test-ui-regression.ps1` for the UI and language regression checks, including all 100 language transitions, tooltip restoration, unchanged user data and preference persistence. Run `./test.ps1` for the full suite including RTU protocol tests. Tests use their own temporary windows and the demo slave; they do not write to hardware. The suite covers protocol requests and validation, operation dialogs, serial port discovery, display formats, fonts, icons and window behavior. Generated executables, logs and screenshots stay under dated folders in `tests/run`, which is excluded from Git. The `.cs` files in `tests` are test source code and belong in the published project.
 
 ## GitHub
 

@@ -15,7 +15,43 @@ namespace ModbusGetFree
     public partial class MainWindow : Form
     {
         public readonly Bus Bus = new Bus();
-        public bool InFlight;
+        bool inFlight;
+        TaskCompletionSource<bool> exchangeFinished = new TaskCompletionSource<bool>();
+        public bool InFlight
+        {
+            get { return inFlight; }
+            set
+            {
+                if (inFlight == value) return;
+                if (value) exchangeFinished = new TaskCompletionSource<bool>();
+                inFlight = value;
+                if (!value) exchangeFinished.TrySetResult(true);
+            }
+        }
+        int manualOperations;
+        readonly System.Threading.SemaphoreSlim manualGate = new System.Threading.SemaphoreSlim(1, 1);
+        public bool PollingPaused { get { return manualOperations > 0; } }
+
+        // Called on the UI thread. Reserve polling before waiting, so another timer tick
+        // cannot start a new poll between the current response and the manual request.
+        public async Task RunManualOperation(Func<Task> operation)
+        {
+            manualOperations++;
+            bool acquired = false;
+            try
+            {
+                await manualGate.WaitAsync();
+                acquired = true;
+                while (InFlight) await exchangeFinished.Task;
+                if (closing || IsDisposed) throw new InvalidOperationException("Application is closing.");
+                await operation();
+            }
+            finally
+            {
+                manualOperations--;
+                if (acquired) manualGate.Release();
+            }
+        }
         public SerialSettings Settings = new SerialSettings();
         readonly MenuStrip menu = new MenuStrip();
         readonly ToolStrip tools = new ToolStrip();
@@ -195,7 +231,7 @@ namespace ModbusGetFree
         // 每次只选择一个到期窗口；实际请求完成后再安排下一次轮询。
         async Task Schedule()
         {
-            if (scheduling || closing || InFlight || !Bus.Connected)
+            if (scheduling || closing || InFlight || PollingPaused || !Bus.Connected)
             {
                 return;
             }

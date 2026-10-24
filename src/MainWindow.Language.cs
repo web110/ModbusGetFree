@@ -1,27 +1,28 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 namespace ModbusGetFree
 {
     public partial class MainWindow
     {
         void BuildLanguageMenu()
         {
-            var languages = new ToolStripMenuItem("Language/ 语言");
-            var chinese = new ToolStripMenuItem("简体中文");
-            var english = new ToolStripMenuItem("English");
-            chinese.Click += (s, e) => ChangeLanguage(true);
-            english.Click += (s, e) => ChangeLanguage(false);
-            languages.DropDownItems.Add(chinese);
-            languages.DropDownItems.Add(english);
+            var languages = new ToolStripMenuItem("Language");
+            for (int i = 0; i < Language.Codes.Length; i++)
+            {
+                string code = Language.Codes[i];
+                var item = new ToolStripMenuItem(Language.Names[i]);
+                item.Click += (s, e) => ChangeLanguage(code);
+                languages.DropDownItems.Add(item);
+            }
             languages.DropDownOpening += (s, e) =>
             {
-                chinese.Checked = Language.Chinese;
-                english.Checked = !Language.Chinese;
+                for (int i = 0; i < Language.Codes.Length; i++)
+                    ((ToolStripMenuItem)languages.DropDownItems[i]).Checked = Language.Code == Language.Codes[i];
             };
-            ((ToolStripMenuItem)menu.Items[6]).DropDownItems.Add(languages);
+            menu.Items.Insert(menu.Items.Count - 1, languages);
         }
-        void ChangeLanguage(bool chinese)
+        void ChangeLanguage(string code)
         {
-            Language.Chinese = chinese;
+            Language.Code = code;
             UpdateConnection();
             Language.Refresh();
             foreach (Form form in Application.OpenForms)

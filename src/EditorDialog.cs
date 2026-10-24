@@ -18,6 +18,12 @@ namespace ModbusGetFree
         };
         protected int row;
 
+        protected override void OnLoad(EventArgs e)
+        {
+            Language.Apply(this);
+            base.OnLoad(e);
+        }
+
         public EditorDialog(string title, int height)
         {
             Icon = AppBrand.LoadIcon();

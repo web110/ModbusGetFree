@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,14 +37,13 @@ class LanguageTests
                 Check(input.Text == "Value", "user input preserved");
                 var menu = main.MainMenuStrip;
                 Check(menu.Items[0].Text == "文件(&F)", "Chinese menu");
-                var view = (ToolStripMenuItem)menu.Items[6];
-                var languages = (ToolStripMenuItem)view.DropDownItems[view.DropDownItems.Count - 1];
-                languages.DropDownItems[1].PerformClick();
+                var languages = menu.Items.OfType<ToolStripMenuItem>().Single(item => item.Text == "Language");
+                languages.DropDownItems[0].PerformClick();
                 Language.Apply(connection); Language.Apply(definition); Language.Apply(editor);
                 Language.Apply(main);
                 foreach (var tip in originalTips) Check(tip.Key.ToolTipText == tip.Value, "restored tooltip: " + tip.Value);
                 Check(!Language.Chinese && connection.Text == "Connection Setup — Modbus RTU", "English switch");
-                languages.DropDownItems[0].PerformClick();
+                languages.DropDownItems[1].PerformClick();
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "preferences.xml");
                 using (var reader = File.OpenRead(path))
                     Check(((Preferences)new XmlSerializer(typeof(Preferences)).Deserialize(reader)).Language == "zh-CN", "language saved");
@@ -54,7 +53,7 @@ class LanguageTests
                 Language.Chinese = false;
                 Language.Apply(definition);
                 Check(definition.Text == "Read/Write Definition", "reverse translation");
-                languages.DropDownItems[1].PerformClick();
+                languages.DropDownItems[0].PerformClick();
             }
             Console.WriteLine("Language tests passed: menus, dialogs, both directions, editable text, persistence.");
             return 0;

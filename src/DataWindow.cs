@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
@@ -313,7 +313,9 @@ namespace ModbusGetFree
                 + ": F = " + State.Function.ToString("00") + ": SR = " + State.ScanRate + "ms"
                 + (State.Disabled ? "  Disabled" : "") + (State.ShowErrors ? "  Last = " + LastMs
                 + "ms" : "");
-            if (Language.Chinese) summaryText = summaryText.Replace("Tx = ", "发送 = ").Replace("Err = ", "错误 = ").Replace("ID = ", "从站 = ").Replace("F = ", "功能码 = ").Replace("SR = ", "周期 = ").Replace("Disabled", "已禁用").Replace("Last = ", "耗时 = ");
+            foreach (string label in new[] { "Tx", "Err", "ID", "F", "SR", "Last" })
+                summaryText = summaryText.Replace(label + " = ", Language.Text(label) + " = ");
+            summaryText = summaryText.Replace("Disabled", Language.Text("Disabled"));
             if (summary.Text != summaryText) summary.Text = summaryText;
             string resultText = host.Bus.Connected ? lastMessage : "No connection";
             resultText = Language.Text(resultText);
@@ -325,7 +327,7 @@ namespace ModbusGetFree
 
         public async Task Execute(bool once)
         {
-            if (Busy || host.InFlight || (!once && State.Disabled) || !host.Bus.Connected)
+            if (Busy || host.InFlight || host.PollingPaused || (!once && State.Disabled) || !host.Bus.Connected)
             {
                 return;
             }

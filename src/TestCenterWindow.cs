@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -111,7 +111,7 @@ namespace ModbusGetFree
         {
             using (FileDialog dialog = save ? (FileDialog)new SaveFileDialog() : new OpenFileDialog())
             {
-                dialog.Filter = Language.Chinese ? "命令列表 (*.txt)|*.txt|所有文件|*.*" : "Command list (*.txt)|*.txt|All files|*.*";
+                dialog.Filter = Language.Text("Command list (*.txt)") + "|*.txt|" + Language.Text("All files") + "|*.*";
                 if (dialog.ShowDialog(this) != DialogResult.OK) return;
                 if (save) SaveList(dialog.FileName); else OpenList(dialog.FileName);
             }

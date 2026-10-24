@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -7,9 +7,8 @@ using System.Runtime.CompilerServices;
 namespace ModbusGetFree
 {
     // Only presentation text is translated. Editable fields and register cells are never changed.
-    public static class Language
+    public static partial class Language
     {
-        public static bool Chinese;
         static readonly Dictionary<string, string> zh = new Dictionary<string, string>();
         static readonly Dictionary<string, string> en = new Dictionary<string, string>();
         static DateTime lastRefresh;
@@ -18,6 +17,7 @@ namespace ModbusGetFree
             foreach (string line in Catalog.Split('\n'))
             {
                 int split = line.IndexOf('=');
+                if (line.Contains(".=")) split = line.IndexOf(".=", StringComparison.Ordinal) + 1;
                 if (split < 1) continue;
                 string key = line.Substring(0, split).TrimEnd('\r');
                 string value = line.Substring(split + 1).TrimEnd('\r');
@@ -29,17 +29,26 @@ namespace ModbusGetFree
                 if (plainKey != key && !zh.ContainsKey(plainKey)) zh[plainKey] = plainValue;
                 if (plainKey != key && !en.ContainsKey(plainValue)) en[plainValue] = plainKey;
             }
+            InitializeAdditional();
         }
         public static string Text(string value)
         {
             if (string.IsNullOrEmpty(value)) return value;
-            foreach (string prefix in new[] { "Error: ", "错误: " })
-                if (value.StartsWith(prefix, StringComparison.Ordinal))
-                    return (Chinese ? "错误: " : "Error: ") + Text(value.Substring(prefix.Length));
             string original;
-            if (en.TryGetValue(value, out original)) value = original;
+            if (!zh.ContainsKey(value) && en.TryGetValue(value, out original)) value = original;
+            var prefixes = new List<string> { "Error: ", "错误: " };
+            foreach (string label in additional["error"]) prefixes.Add(label + ": ");
+            foreach (string prefix in prefixes)
+                if (value.StartsWith(prefix, StringComparison.Ordinal))
+                    return Text("Error") + ": " + Text(value.Substring(prefix.Length));
             string translated;
             if (Chinese && zh.TryGetValue(value, out translated)) return translated;
+            Dictionary<string, string> catalog;
+            if (catalogs.TryGetValue(Code, out catalog))
+            {
+                if (catalog.TryGetValue(value, out translated)) return translated;
+                return TranslateAdditional(value, Array.IndexOf(Codes, Code) - 1);
+            }
             if (value.EndsWith(":")) return Text(value.Substring(0, value.Length - 1)) + ":";
             return value;
         }
@@ -60,9 +69,16 @@ namespace ModbusGetFree
         {
             public string OriginalText, OriginalTip, LastText, LastTip;
             public bool FollowText;
+            public bool WidthAdjusted;
         }
         static readonly ConditionalWeakTable<ToolStripItem, ItemText> itemTexts =
             new ConditionalWeakTable<ToolStripItem, ItemText>();
+        static readonly ConditionalWeakTable<Control, ItemText> controlTexts =
+            new ConditionalWeakTable<Control, ItemText>();
+        static readonly ConditionalWeakTable<ComboBox, Dictionary<int, ItemText>> comboTexts =
+            new ConditionalWeakTable<ComboBox, Dictionary<int, ItemText>>();
+        static readonly ConditionalWeakTable<DataGridViewColumn, ItemText> columnTexts =
+            new ConditionalWeakTable<DataGridViewColumn, ItemText>();
         public static void Items(ToolStripItemCollection items)
         {
             foreach (ToolStripItem item in items)
@@ -84,22 +100,56 @@ namespace ModbusGetFree
         }
         public static void Apply(Control control)
         {
+            var dialog = control as Form;
+            if (dialog != null && dialog.FormBorderStyle == FormBorderStyle.FixedDialog
+                && Code != "en" && Code != "zh-CN")
+            {
+                var layout = controlTexts.GetOrCreateValue(dialog);
+                if (!layout.WidthAdjusted)
+                {
+                    layout.WidthAdjusted = true;
+                    dialog.Scale(new System.Drawing.SizeF(1.4f, 1));
+                }
+            }
+            var number = control as NumericUpDown;
+            if (number != null && number.FindForm() is FunctionDialog && number.Controls.Count > 1)
+            {
+                number.Controls[0].Visible = false;
+                number.Controls[1].Bounds = new System.Drawing.Rectangle(1, 1,
+                    number.ClientSize.Width - 2, number.ClientSize.Height - 2);
+            }
             if (!(control is TextBoxBase) && !(control is ComboBox) && !(control is NumericUpDown)
                 && !(control is DataWindow) && !(control is MainWindow))
-                control.Text = Text(control.Text);
+            {
+                var source = controlTexts.GetOrCreateValue(control);
+                if (source.OriginalText == null || control.Text != source.LastText) source.OriginalText = control.Text;
+                source.LastText = Text(source.OriginalText);
+                if (control.Text != source.LastText) control.Text = source.LastText;
+            }
             var strip = control as ToolStrip;
             if (strip != null) Items(strip.Items);
             if (control.ContextMenuStrip != null) Items(control.ContextMenuStrip.Items);
             var grid = control as DataGridView;
             if (grid != null)
-                foreach (DataGridViewColumn column in grid.Columns) column.HeaderText = Text(column.HeaderText);
+                foreach (DataGridViewColumn column in grid.Columns)
+                {
+                    var source = columnTexts.GetOrCreateValue(column);
+                    if (source.OriginalText == null || column.HeaderText != source.LastText) source.OriginalText = column.HeaderText;
+                    source.LastText = Text(source.OriginalText);
+                    if (column.HeaderText != source.LastText) column.HeaderText = source.LastText;
+                }
             var combo = control as ComboBox;
             if (combo != null && combo.DropDownStyle == ComboBoxStyle.DropDownList)
                 for (int i = 0; i < combo.Items.Count; i++)
                     if (combo.Items[i] is string)
                     {
                         string current = (string)combo.Items[i];
-                        string next = Text(current);
+                        var entries = comboTexts.GetOrCreateValue(combo);
+                        ItemText source;
+                        if (!entries.TryGetValue(i, out source)) entries[i] = source = new ItemText();
+                        if (source.OriginalText == null || current != source.LastText) source.OriginalText = current;
+                        string next = Text(source.OriginalText);
+                        source.LastText = next;
                         if (current != next) combo.Items[i] = next;
                     }
             // Translate only application output lists, never editable commands or register values.
@@ -115,7 +165,22 @@ namespace ModbusGetFree
                 response.Text = Text(response.Text);
             foreach (Control child in control.Controls) Apply(child);
         }
-        const string Catalog = @"N/A=暂无
+        const string Catalog = @"Error=错误
+Coil=线圈
+PLC address=PLC 地址
+Mask bits (15 to 0)=掩码位（15 到 0）
+Mask bit=掩码位
+Values text=数值文本
+Command list (*.txt)=命令列表 (*.txt)
+All files=所有文件
+Tx=发送
+Err=错误
+ID=从站
+F=功能码
+SR=周期
+Last=耗时
+Disabled=已禁用
+N/A=暂无
 Write Single Coil=写单线圈
 Write Single Register=写单寄存器
 15: Write Multiple Coils=15：写多个线圈

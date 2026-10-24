@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -248,7 +248,7 @@ namespace ModbusGetFree
                 {
                     Connection = Settings,
                     AutoConnect = autoConnect,
-                    Language = ModbusGetFree.Language.Chinese ? "zh-CN" : "en",
+                    Language = ModbusGetFree.Language.Code,
                     Default = defaultDocument,
                     Recent = recentFiles
                 };
@@ -285,7 +285,7 @@ namespace ModbusGetFree
                         Documents = prefs.Default == null ? new List<DocumentState>()
                             : new List<DocumentState> { prefs.Default }
                     });
-                    Language.Chinese = prefs.Language == "zh-CN";
+                    Language.Code = prefs.Language;
                     Language.Refresh();
                     Settings = prefs.Connection;
                     autoConnect = prefs.AutoConnect;
