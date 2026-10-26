@@ -7,6 +7,7 @@ namespace ModbusGetFree
 {
     public static class AppBrand
     {
+        public const string Version = "1.10";
         public static Icon LoadIcon()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "branding", "app.ico");
@@ -44,8 +45,8 @@ namespace ModbusGetFree
         {
             using (var dialog = new EditorDialog("About ModbusGetFree", 250))
             {
-                dialog.ClientSize = new Size(580, 294);
-                var panel = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(16), ColumnCount = 1, RowCount = 8 };
+                dialog.ClientSize = new Size(680, 350);
+                var panel = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(16), ColumnCount = 1, RowCount = 9 };
                 panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
                 panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
                 panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
@@ -54,9 +55,10 @@ namespace ModbusGetFree
                 panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
                 panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
                 panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
+                panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
                 panel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
                 panel.Controls.Add(new Label { Text = "ModbusGetFree — Modbus RTU desktop utility", AutoSize = true }, 0, 0);
-                panel.Controls.Add(new Label { Name = "SoftwareVersion", Text = "v1.10", AutoSize = true }, 0, 1);
+                panel.Controls.Add(new Label { Name = "SoftwareVersion", Text = "v" + AppBrand.Version, AutoSize = true }, 0, 1);
                 panel.Controls.Add(new Label { Text = "Design by Jim NI", AutoSize = true }, 0, 2);
                 panel.Controls.Add(new Label { Text = "Copyright © 2026 Jim NI", AutoSize = true }, 0, 3);
                 var license = new Label { Text = "MIT license", AutoSize = true };
@@ -71,6 +73,9 @@ namespace ModbusGetFree
                 copy.Click += (s, e) => { address.SelectAll(); address.Focus(); address.Copy(); };
                 actions.Controls.Add(open); actions.Controls.Add(copy);
                 panel.Controls.Add(actions, 0, 7);
+                var updates = new CheckBox { Name = "AllowUpdates", Text = "Allow updates: check GitHub at startup", AutoSize = true, Checked = allowUpdates };
+                updates.CheckedChanged += (s, e) => { allowUpdates = updates.Checked; SavePreferences(); if (!allowUpdates && updateDownload != null) updateDownload.Cancel(); };
+                panel.Controls.Add(updates, 0, 8);
                 dialog.Controls.Clear(); dialog.Controls.Add(panel);
                 dialog.ShowDialog(this);
             }

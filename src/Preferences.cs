@@ -9,6 +9,7 @@ namespace ModbusGetFree
     {
         public SerialSettings Connection = new SerialSettings();
         public bool AutoConnect;
+        public bool AllowUpdates;
         public string Language = "en";
         public DocumentState Default;
         public List<string> Recent = new List<string>();

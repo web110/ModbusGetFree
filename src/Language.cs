@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -29,6 +29,7 @@ namespace ModbusGetFree
                 if (plainKey != key && !zh.ContainsKey(plainKey)) zh[plainKey] = plainValue;
                 if (plainKey != key && !en.ContainsKey(plainValue)) en[plainValue] = plainKey;
             }
+            InitializeUpdates();
             InitializeAdditional();
         }
         public static string Text(string value)
@@ -514,4 +515,5 @@ Series 12=曲线 12
         { return MessageBox.Show(owner, Language.Text(text), Language.Text(caption), buttons, icon); }
     }
 }
+
 

@@ -140,7 +140,7 @@ namespace ModbusGetFree
                     {
                         await QuickConnect();
                     }
-
+                    await StartUpdates();
                 };
             }
 
@@ -406,6 +406,7 @@ namespace ModbusGetFree
             }
 
             closing = true;
+            if (!LaunchUpdateBeforeClosing()) { closing = false; return; }
             scheduler.Stop();
             await Bus.Close();
             BeginInvoke(new Action(() => Close()));

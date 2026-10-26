@@ -45,3 +45,9 @@ Run `./test-ui-regression.ps1` for the UI and language regression checks, includ
 ## GitHub
 
 The About dialog reads `github-repository.txt` for the project URL. Once the repository is published, set this file to its HTTPS GitHub URL. No credentials or user project files belong in this repository.
+
+## Automatic updates
+
+In **Help → About ModbusGetFree**, enable **Allow updates: check GitHub at startup** (off by default). A new stable release offers **Upgrade now**, **Upgrade in background** (download now, apply on next launch; session-only choice), or **Skip this time**. See [update and release instructions](UPDATES.md).
+
+GitHub is checked only once per launch. If the connection fails or times out, there is no reconnection or retry during the current session; the next attempt is on the next launch. Serial communication is unaffected.

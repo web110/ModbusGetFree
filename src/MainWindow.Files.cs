@@ -248,6 +248,7 @@ namespace ModbusGetFree
                 {
                     Connection = Settings,
                     AutoConnect = autoConnect,
+                    AllowUpdates = allowUpdates,
                     Language = ModbusGetFree.Language.Code,
                     Default = defaultDocument,
                     Recent = recentFiles
@@ -289,6 +290,7 @@ namespace ModbusGetFree
                     Language.Refresh();
                     Settings = prefs.Connection;
                     autoConnect = prefs.AutoConnect;
+                    allowUpdates = prefs.AllowUpdates;
                     defaultDocument = prefs.Default;
                     recentFiles = prefs.Recent ?? new List<string>();
                 }

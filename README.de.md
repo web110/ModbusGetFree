@@ -36,3 +36,9 @@ Starten Sie `ModbusGetFree.exe`. Zum Erstellen führen Sie `./build.ps1` in Powe
 ## GitHub
 
 Tragen Sie die HTTPS-Projektadresse für den Info-Dialog in `github-repository.txt` ein.
+
+## Automatische Updates
+
+Aktivieren Sie Updates unter **Hilfe → Über ModbusGetFree** (standardmäßig aus). Wählen Sie sofortiges Update, Download im Hintergrund mit Anwendung beim nächsten Start oder diesmal überspringen. Die Hintergrundauswahl gilt nur für diese Sitzung. [Update- und Veröffentlichungsanleitung](UPDATES.md) (Englisch/Chinesisch).
+
+GitHub wird nur einmal pro Programmstart geprüft. Bei einem Verbindungsfehler oder einer Zeitüberschreitung erfolgt in dieser Sitzung keine erneute Verbindung und kein weiterer Versuch. Der nächste Versuch erfolgt beim nächsten Programmstart. Die serielle Kommunikation bleibt unbeeinträchtigt.

@@ -36,3 +36,9 @@ Lancez `ModbusGetFree.exe`. Pour compiler, exécutez `./build.ps1` dans PowerShe
 ## GitHub
 
 Renseignez l’URL HTTPS du projet dans `github-repository.txt` pour la boîte À propos.
+
+## Mises à jour automatiques
+
+Activez les mises à jour dans **Aide → À propos de ModbusGetFree** (désactivées par défaut). Choisissez la mise à jour immédiate, le téléchargement en arrière-plan avec installation au prochain lancement, ou l’ignorance pour cette fois. Le choix en arrière-plan est limité à cette session. [Instructions de mise à jour et de publication](UPDATES.md) (anglais/chinois).
+
+GitHub est vérifié une seule fois par lancement. En cas d’échec de connexion ou d’expiration du délai, aucune reconnexion ni nouvelle tentative n’a lieu pendant cette session ; la prochaine tentative aura lieu au prochain lancement. La communication série reste inchangée.

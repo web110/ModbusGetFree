@@ -36,3 +36,9 @@ Ejecute `ModbusGetFree.exe`. Para compilar, ejecute `./build.ps1` en PowerShell 
 ## GitHub
 
 Configure la URL HTTPS del proyecto en `github-repository.txt` para el cuadro Acerca de.
+
+## Actualizaciones automáticas
+
+Active las actualizaciones en **Ayuda → Acerca de ModbusGetFree** (desactivadas por defecto). Puede actualizar ahora, descargar en segundo plano para aplicar al iniciar de nuevo, u omitir esta vez. La elección de segundo plano solo vale para esta sesión. [Instrucciones de actualización y publicación](UPDATES.md) (inglés/chino).
+
+GitHub se comprueba solo una vez por inicio. Si la conexión falla o se agota el tiempo de espera, no se reconecta ni se reintenta durante esta sesión; se intentará de nuevo al iniciar el programa la próxima vez. La comunicación serie no se ve afectada.

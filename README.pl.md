@@ -36,3 +36,9 @@ Uruchom `ModbusGetFree.exe`. Aby skompilować program, wykonaj `./build.ps1` w P
 ## GitHub
 
 Wpisz adres HTTPS projektu do `github-repository.txt`, aby wyświetlać go w oknie informacji o programie.
+
+## Automatyczne aktualizacje
+
+Włącz aktualizacje w **Pomoc → O ModbusGetFree** (domyślnie wyłączone). Dostępne są: aktualizacja teraz, pobieranie w tle z instalacją przy następnym uruchomieniu oraz pominięcie tym razem. Wybór pobierania w tle dotyczy tylko bieżącej sesji. [Instrukcje aktualizacji i publikowania](UPDATES.md) (angielski/chiński).
+
+GitHub jest sprawdzany tylko raz przy uruchomieniu. Jeśli połączenie nie powiedzie się lub upłynie limit czasu, program nie ponawia połączenia ani próby w tej sesji; kolejna próba nastąpi przy następnym uruchomieniu. Komunikacja szeregowa pozostaje bez zmian.

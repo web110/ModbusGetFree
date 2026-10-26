@@ -13,6 +13,11 @@ namespace ModbusGetFree
 
         public static void Main(string[] args)
         {
+            if (args.Length == 3 && args[0] == "--apply-update")
+            {
+                UpdateService.ApplyFromHelper(args[1], args[2]);
+                return;
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += (s, e) => LocalMessageBox.Show(e.Exception.Message, "Application Error");
