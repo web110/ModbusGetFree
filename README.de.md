@@ -6,6 +6,12 @@ Modbus-RTU-Desktopwerkzeug für Windows, entwickelt mit C# / Windows Forms. Modb
 
 Design: Jim NI. Copyright © 2026 Jim NI. [MIT-Lizenz](LICENSE).
 
+## Herunterladen und verwenden
+
+**Zur Nutzung genügt der Inhalt des [Release-Ordners](Release/); Quellcode und Tests werden nicht benötigt.** Laden Sie `ModbusGetFree-update.zip` aus dem [neuesten GitHub-Release](https://github.com/web110/ModbusGetFree/releases/latest) herunter, entpacken Sie alles und starten Sie `ModbusGetFree.exe`. Der Ordner `assets` muss neben der Programmdatei bleiben. Windows .NET Framework 4.5 oder neuer ist erforderlich.
+
+Die Software unterstützt **automatische Updates**, aktivierbar unter **Hilfe → Über ModbusGetFree**. Eine fehlgeschlagene Verbindung zu GitHub wird erst beim nächsten Programmstart erneut versucht.
+
 ## Hauptfenster
 
 ![Hauptfenster auf Deutsch](assets/screenshots/main-window-de.png)

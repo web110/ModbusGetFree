@@ -6,6 +6,12 @@ Utilitário Modbus RTU para Windows, desenvolvido em C# / Windows Forms, tendo o
 
 Design: Jim NI. Copyright © 2026 Jim NI. Licença [MIT](LICENSE).
 
+## Transferir e utilizar
+
+**Para utilizar o programa, basta transferir o conteúdo da [pasta Release](Release/); não são necessários o código-fonte nem os testes.** Transfira `ModbusGetFree-update.zip` da [versão mais recente no GitHub](https://github.com/web110/ModbusGetFree/releases/latest), extraia tudo e execute `ModbusGetFree.exe`. Mantenha a pasta `assets` junto do executável. Requer Windows .NET Framework 4.5 ou posterior.
+
+O programa suporta **atualizações automáticas**, ativadas em **Ajuda → Sobre o ModbusGetFree**. Se a ligação ao GitHub falhar, só haverá nova tentativa no próximo arranque.
+
 ## Janela principal
 
 ![Janela principal em português](assets/screenshots/main-window-pt.png)

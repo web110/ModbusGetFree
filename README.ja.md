@@ -6,6 +6,12 @@ C# / Windows Forms で開発した Windows 用 Modbus RTU デスクトップツ�
 
 設計：Jim NI。Copyright © 2026 Jim NI。[MIT ライセンス](LICENSE)。
 
+## ダウンロードと使用方法
+
+**ソフトウェアを使用するだけなら、[Release フォルダー](Release/) の内容のみをダウンロードしてください。ソースコードとテストは不要です。** [GitHub の最新リリース](https://github.com/web110/ModbusGetFree/releases/latest) から `ModbusGetFree-update.zip` をダウンロードしてすべて展開し、`ModbusGetFree.exe` を実行できます。`assets` フォルダーは実行ファイルと同じ場所に置いてください。Windows .NET Framework 4.5 以降が必要です。
+
+**自動更新機能**があります。**ヘルプ → ModbusGetFree について**で有効にしてください。GitHub への接続に失敗した場合、再試行は次回起動時に行います。
+
 ## メイン画面
 
 ![日本語のメイン画面](assets/screenshots/main-window-ja.png)

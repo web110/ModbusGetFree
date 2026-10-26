@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 & (Join-Path $PSScriptRoot 'build.ps1')
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$release = Join-Path $PSScriptRoot 'release'
+$release = Join-Path $PSScriptRoot 'Release'
 New-Item -ItemType Directory -Force $release | Out-Null
 $destination = Join-Path $release 'ModbusGetFree-update.zip'
 # Rebuild this generated archive; never collect preferences or user data.
@@ -16,3 +16,11 @@ try {
 } finally { $archive.Dispose(); $stream.Dispose() }
 Write-Output "Update package: $destination"
 
+# Keep the repository's ready-to-run Release directory in sync with the package.
+$runtimeFiles = @(Get-Item -LiteralPath "$PSScriptRoot\ModbusGetFree.exe", "$PSScriptRoot\LICENSE") + @(Get-ChildItem -LiteralPath "$PSScriptRoot\assets\branding" -Filter '*.ico') + @(Get-ChildItem -LiteralPath "$PSScriptRoot\assets\icons\active" -Filter '*.png')
+foreach ($file in $runtimeFiles) {
+    $relative = $file.FullName.Substring($PSScriptRoot.Length + 1)
+    $runtimeTarget = Join-Path $release $relative
+    New-Item -ItemType Directory -Force (Split-Path -Parent $runtimeTarget) | Out-Null
+    Copy-Item -LiteralPath $file.FullName -Destination $runtimeTarget -Force
+}

@@ -6,6 +6,12 @@
 
 设计：Jim NI。版权所有 © 2026 Jim NI。采用 [MIT 许可证](LICENSE)。
 
+## 下载与使用
+
+**如果只是想使用本软件，仅下载 [Release 文件夹](Release/) 的内容即可，无需下载源码和测试文件。** 最方便的方法是从 [GitHub 最新 Release](https://github.com/web110/ModbusGetFree/releases/latest) 下载 `ModbusGetFree-update.zip`，完整解压后运行 `ModbusGetFree.exe`。请将 `assets` 文件夹与程序放在同一目录。需要 Windows .NET Framework 4.5 或更高版本。
+
+软件具有**自动升级功能**。在 **帮助 → 关于 ModbusGetFree** 中启用开关后，启动时检查新版，可选择立即升级、后台下载并于下次启动应用，或本次不升级。连接 GitHub 失败后，本次不重试，下次启动再尝试。
+
 ## 主界面截图
 
 ![ModbusGetFree 中文主界面](assets/screenshots/main-window-zh-CN.png)
