@@ -28,7 +28,7 @@ namespace ModbusGetFree
             }
 
             Language.Initialize();
-            Application.Run(new MainWindow(false));
+            Application.Run(new MainWindow(false, args));
         }
 
         static void Render(string path)

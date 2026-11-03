@@ -84,7 +84,9 @@ namespace ModbusGetFree
         List<string> recentFiles = new List<string>();
         ChartWindow chart;
 
-        public MainWindow(bool empty)
+        public MainWindow(bool empty) : this(empty, new string[0]) { }
+
+        public MainWindow(bool empty, string[] startupFiles)
         {
             Icon = AppBrand.LoadIcon();
             Text = "ModbusGetFree";
@@ -136,6 +138,8 @@ namespace ModbusGetFree
                     var initial = NewDocument(defaultDocument == null ? null : CloneDocument(defaultDocument));
                     if (defaultDocument == null) startupPlaceholder = initial;
                     dirty = false;
+                    // Use the File > Open path after preferences and MDI initialization.
+                    foreach (var file in startupFiles) OpenDocument(file);
                     if (autoConnect)
                     {
                         await QuickConnect();

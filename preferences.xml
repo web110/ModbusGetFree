@@ -14,6 +14,9 @@
     <Demo>false</Demo>
   </Connection>
   <AutoConnect>false</AutoConnect>
+  <AllowUpdates>false</AllowUpdates>
   <Language>en</Language>
-  <Recent />
+  <Recent>
+    <string>D:\7.Git_Files\SW\DigitalSensor\Beef_TM1031_STM8\ECSMART_ModbusPoll_4C.mbp</string>
+  </Recent>
 </Preferences>
