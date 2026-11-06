@@ -5,11 +5,11 @@ if (!(Test-Path $compiler)) { $compiler = Join-Path $env:WINDIR 'Microsoft.NET\F
 $directory = Join-Path $PSScriptRoot ('tests\run\' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
 New-Item -ItemType Directory -Force $directory | Out-Null
 Copy-Item -LiteralPath "$PSScriptRoot\ModbusGetFree.exe" "$directory\ModbusGetFree.exe" -Force
-foreach ($name in @('StartupFileTests', 'ManualPollingTests', 'MultilingualTests', 'LanguageTests', 'SelectedWriteTests', 'SerialPortCatalogTests', 'ProductTests', 'TestCenterFixTests', 'OriginalFontTests', 'SmoothGridTests', 'DisplayFixTests', 'IconAssetsTests', 'RtuTests')) {
+foreach ($name in @('MbpLayoutTests', 'MbpImportTests', 'StartupFileTests', 'ManualPollingTests', 'MultilingualTests', 'LanguageTests', 'SelectedWriteTests', 'SerialPortCatalogTests', 'ProductTests', 'TestCenterFixTests', 'OriginalFontTests', 'SmoothGridTests', 'DisplayFixTests', 'IconAssetsTests', 'RtuTests')) {
     $executable = Join-Path $directory ($name + '.exe')
     & $compiler /nologo /utf8output /target:exe "/out:$executable" "/reference:$PSScriptRoot\ModbusGetFree.exe" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Core.dll /reference:System.Xml.dll /reference:Microsoft.CSharp.dll (Join-Path $PSScriptRoot ("tests\" + $name + '.cs'))
     if ($LASTEXITCODE -ne 0) { throw "Test build failed: $name" }
-    $arguments = if ($name -eq 'IconAssetsTests') { '"' + $PSScriptRoot + '" "' + $directory + '\icon-overrides"' } else { '"' + $directory + '"' }
+    $arguments = if ($name -eq 'MbpImportTests' -or $name -eq 'MbpLayoutTests') { '"' + $PSScriptRoot + '" "' + $directory + '"' } elseif ($name -eq 'IconAssetsTests') { '"' + $PSScriptRoot + '" "' + $directory + '\icon-overrides"' } else { '"' + $directory + '"' }
     $report = Join-Path $directory ($name + '.txt')
     $process = Start-Process -FilePath $executable -ArgumentList $arguments -WindowStyle Hidden -PassThru -Wait -RedirectStandardOutput $report
     if ($process.ExitCode -ne 0) { throw "Test failed: $name; see $report" }

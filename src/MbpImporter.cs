@@ -29,7 +29,7 @@ namespace ModbusGetFree
             if (version != 7000 && version != 9000)
                 throw new IOException("Unsupported MBP archive version: " + version + ". Supported: 7000/9000.");
             reader.ReadInt32(); // 兼容文件显示尺寸参数。
-            var state = new DocumentState { Title = title, Disabled = false };
+            var state = new DocumentState { Title = title, Disabled = false, AlignAddressRows = true };
             state.Function = reader.ReadInt32();
             state.Address = reader.ReadInt32();
             state.Quantity = reader.ReadInt32();
@@ -71,22 +71,24 @@ namespace ModbusGetFree
                 throw new IOException("Unsupported MBP row count.");
             if (state.Unit < 1 || state.Unit > 247 || state.ScanRate < 0 || state.ScanRate > 3600000)
                 throw new IOException("Invalid MBP polling settings.");
+            // Verified against 28 files saved by Modbus Poll 9.2.2.
+            // MBP 16 is a continuation marker, never a standalone type.
+            int[] types = { 0, 1, 2, 3, 6, 6, 9, 9, 4, 4, 6, 6, 9, 9, 4, 4, -1,
+                        5, 5, 5, 5, 7, 7, 7, 7, 8, 8, 8, 8 };
+            int[] orders = { 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 3, 2, 3, 2, 3, 2, 0,
+                         0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3 };
             for (int i = 0; i < state.Quantity; )
             {
-                int format;
-                switch (formats[i])
-                {
-                    case 0: format = 0; break;
-                    case 1: format = 1; break;
-                    case 2: format = 2; break;
-                    case 5: format = 6; break; // 兼容文件 float32，ABCD。
-                    case 9: format = 5; break; // 兼容文件 uint32，ABCD。
-                    default: throw new IOException("Unsupported MBP display format " + formats[i] + " at address " + (state.Address + i) + ".");
-                }
+                int code = formats[i];
+                if (code < 0 || code >= types.Length || types[code] < 0)
+                    throw new IOException("Unsupported MBP display format " + code + " at address " + (state.Address + i) + ".");
+                int format = types[code];
                 int width = ValueCodec.Width(format);
-                for (int k = 1; k < width && i + k < state.Quantity; k++)
+                if (i + width > state.Quantity)
+                    throw new IOException("Incomplete MBP multi-register group at address " + (state.Address + i) + ".");
+                for (int k = 1; k < width; k++)
                     if (formats[i + k] != 16) throw new IOException("Invalid MBP multi-register group.");
-                state.Definitions.Add(new RegisterDefinition { Address = state.Address + i, Format = format });
+                state.Definitions.Add(new RegisterDefinition { Address = state.Address + i, Format = format, Order = orders[code] });
                 i += width;
             }
             return state;

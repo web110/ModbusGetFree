@@ -24,6 +24,7 @@ namespace ModbusGetFree
         public bool BaseOne;
         public bool Enron;
         public int Rows = 10;
+        public bool AlignAddressRows;
         public bool ShowErrors;
         public int Foreground = System.Drawing.Color.Black.ToArgb();
         public int Background = System.Drawing.Color.White.ToArgb();

@@ -196,6 +196,11 @@ namespace ModbusGetFree
             }
         }
 
+        int AddressRowOffset
+        {
+            get { return State.AlignAddressRows && State.Rows > 0 ? State.Address % State.Rows : 0; }
+        }
+
         public void Rebuild()
         {
             rebuilding = true;
@@ -207,7 +212,7 @@ namespace ModbusGetFree
             int width = RegisterStride;
             int cells = State.Quantity;
             int rows = State.Rows == 0 ? Math.Max(1, cells) : State.Rows;
-            int columns = Math.Max(1, (cells + rows - 1) / rows);
+            int columns = Math.Max(1, (cells + AddressRowOffset + rows - 1) / rows);
             Grid.DefaultCellStyle.ForeColor = Color.FromArgb(State.Foreground);
             Grid.DefaultCellStyle.BackColor = Color.FromArgb(State.Background);
             // 默认容纳约 13 个数字字符，仍可由用户拖动列边界加宽。
@@ -227,7 +232,7 @@ namespace ModbusGetFree
                 Grid.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "Value" + c,
-                    HeaderText = DisplayAddress(c * rows * width),
+                    HeaderText = DisplayAddress((c * rows - AddressRowOffset) * width),
                     ReadOnly = true,
                     Width = compactWidth,
                     DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleRight }
@@ -240,7 +245,7 @@ namespace ModbusGetFree
                 Grid.Rows[r].HeaderCell.Value = r.ToString();
                 for (int c = 0; c < columns; c++)
                 {
-                    int i = (c * rows + r) * width;
+                    int i = Index(r, c * 2);
                     if (i >= StorageQuantity)
                     {
                         Grid[c * 2, r].ReadOnly = true;
@@ -269,7 +274,8 @@ namespace ModbusGetFree
 
         int Index(int row, int column)
         {
-            return (column / 2 * Grid.Rows.Count + row) * RegisterStride;
+            int cell = column / 2 * Grid.Rows.Count + row - AddressRowOffset;
+            return cell < 0 ? StorageQuantity : cell * RegisterStride;
         }
 
         public void RefreshValues()
