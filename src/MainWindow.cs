@@ -100,6 +100,7 @@ namespace ModbusGetFree
             MainMenuStrip = menu;
             BuildAppMenus();
             BuildLanguageMenu();
+            BuildAiMenu();
             BuildToolbar();
             status.Items.Add(connection);
             status.Items.Add(new ToolStripStatusLabel("Modbus RTU"));
@@ -412,6 +413,7 @@ namespace ModbusGetFree
             closing = true;
             if (!LaunchUpdateBeforeClosing()) { closing = false; return; }
             scheduler.Stop();
+            StopAiInterface();
             await Bus.Close();
             BeginInvoke(new Action(() => Close()));
         }

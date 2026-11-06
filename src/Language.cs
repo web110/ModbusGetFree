@@ -30,6 +30,7 @@ namespace ModbusGetFree
                 if (plainKey != key && !en.ContainsKey(plainValue)) en[plainValue] = plainKey;
             }
             InitializeUpdates();
+            InitializeDataPort();
             InitializeAdditional();
         }
         public static string Text(string value)

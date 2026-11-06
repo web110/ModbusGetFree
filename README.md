@@ -1,4 +1,4 @@
-# ModbusGetFree
+﻿# ModbusGetFree
 
 [English](README.md) | [简体中文](README.zh-CN.md) | [Español](README.es.md) | [Français](README.fr.md) | [Русский](README.ru.md) | [Português](README.pt.md) | [Polski](README.pl.md) | [日本語](README.ja.md) | [Deutsch](README.de.md) | [한국어](README.ko.md)
 
@@ -57,3 +57,7 @@ The About dialog reads `github-repository.txt` for the project URL. Once the rep
 In **Help → About ModbusGetFree**, enable **Allow updates: check GitHub at startup** (off by default). A new stable release offers **Upgrade now**, **Upgrade in background** (download now, apply on next launch; session-only choice), or **Skip this time**. See [update and release instructions](UPDATES.md).
 
 GitHub is checked only once per launch. If the connection fails or times out, there is no reconnection or retry during the current session; the next attempt is on the next launch. Serial communication is unaffected.
+
+## Data Port
+
+Open **Help → Data Port** to enable the local read-only snapshot interface. The `ai` folder contains the demo page, Python MCP bridge and [setup instructions](ai/README.md). Keep this folder beside the executable. The interface is off by default and does not add device polling or register writes.

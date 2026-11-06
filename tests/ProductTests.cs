@@ -9,7 +9,7 @@ class ProductTests
  {
   var help=host.Controls.OfType<MenuStrip>().Single().Items.OfType<ToolStripMenuItem>().Last();
   var helpItems=help.DropDownItems.OfType<ToolStripMenuItem>().Select(i=>i.Text.Replace("&","")).ToArray();
-  Check(helpItems.Length==2&&helpItems[0]=="Help Topics"&&helpItems[1].Contains("About ModbusGetFree"),"Help only has topics and About");
+  Check(helpItems.Length==3&&helpItems[0]=="Help Topics"&&helpItems[1]=="Data Port"&&helpItems[2].Contains("About ModbusGetFree"),"Help has topics, Data Port and About");
   Check(host.Text.StartsWith("ModbusGetFree")&&host.Icon!=null,"product title and application icon");
   var doc=host.NewDocument(new DocumentState{Disabled=true});host.Settings.Demo=true;await host.QuickConnect();
   foreach(int fn in new[]{5,6,15,16,17,22,23})using(var d=new FunctionDialog(host,fn))

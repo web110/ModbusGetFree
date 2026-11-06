@@ -19,6 +19,7 @@ namespace ModbusGetFree
         SerialSettings settings;
         DateTime lastEnd = DateTime.MinValue;
         bool connected;
+        public Guid SessionId { get; private set; }
         public event Action<string> Traffic;
         public bool Connected
         {
@@ -62,6 +63,7 @@ namespace ModbusGetFree
                 }
             }
 
+            SessionId = Guid.NewGuid();
             connected = true;
         }
 

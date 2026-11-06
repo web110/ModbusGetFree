@@ -341,6 +341,7 @@ namespace ModbusGetFree
             Busy = true;
             host.InFlight = true;
             var watch = System.Diagnostics.Stopwatch.StartNew();
+            aiLastAttemptUtc = DateTime.UtcNow;
             try
             {
                 int fn = State.Function;
@@ -356,10 +357,12 @@ namespace ModbusGetFree
                     if (fn <= 4)
                     {
                         State.Values = values;
+                        AiReadSucceeded();
                     }
                 }
 
                 lastMessage = State.Unit == 0 ? "Broadcast sent" : "Response OK";
+                aiLastError = null;
                 if (csvLog != null)
                 {
                     try
@@ -394,6 +397,7 @@ namespace ModbusGetFree
             }
             catch (Exception ex)
             {
+                aiLastError = ex.Message;
                 Errors++;
                 lastMessage = "Error: " + ex.Message;
                 if (State.DisableOnError)

@@ -1,4 +1,4 @@
-# ModbusGetFree
+﻿# ModbusGetFree
 
 [English](README.md) | [简体中文](README.zh-CN.md) | [Español](README.es.md) | [Français](README.fr.md) | [Русский](README.ru.md) | [Português](README.pt.md) | [Polski](README.pl.md) | [日本語](README.ja.md) | [Deutsch](README.de.md) | [한국어](README.ko.md)
 
@@ -57,3 +57,7 @@
 在 **Help → About ModbusGetFree（帮助 → 关于）** 中打开“允许自动升级”开关（默认关闭）。有新版本时可选择“立即升级”“后台升级”（下载后下次启动应用，选择仅本次有效）或“本次不升级”。详见[升级与发布说明](UPDATES.md)。
 
 每次启动只检查一次 GitHub。连接失败或超时后，本次运行不重连、不重试，等下次启动再尝试，不影响串口通信。
+
+## 数据接口
+
+通过 **帮助 → 数据接口** 启用本机只读快照接口。`ai` 文件夹提供演示页、Python MCP 桥接脚本和[连接说明](ai/README.zh-CN.md)，请与程序放在同一目录。接口默认关闭，不增加设备轮询，不提供寄存器写入功能。
