@@ -1,0 +1,4 @@
+# Generated test reports and downloaded compatibility-test applications.
+/tests/run/
+/tests/tools/
+/Release/ModbusGetFree-update.zip

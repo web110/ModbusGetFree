@@ -62,11 +62,17 @@ namespace ModbusGetFree
             }
             state.ScanRate = reader.ReadInt32();
             state.Unit = reader.ReadInt32();
-            for (int i = 0; i < 3; i++) reader.ReadInt32();
+            state.Disabled = reader.ReadInt32() == 0;
+            state.DisableOnError = reader.ReadInt32() != 0;
+            if (reader.ReadInt32() != 0) throw new IOException("Enron MBP is not supported.");
             if (reader.ReadInt32() != 44) throw new IOException("Unsupported MBP window layout.");
             for (int i = 0; i < 10; i++) reader.ReadInt32();
-            for (int i = 0; i < 3; i++) reader.ReadInt32();
-            state.Rows = reader.ReadInt32();
+            int rowChoice = reader.ReadInt32();
+            state.HideNames = reader.ReadInt32() != 0;
+            reader.ReadInt32(); // Column count.
+            reader.ReadInt32(); // Actual grid row count; RowsDialog selects the layout mode.
+            if (rowChoice < 0 || rowChoice > 4) throw new IOException("Unsupported MBP row mode.");
+            state.Rows = new[] { 10, 20, 50, 100, 0 }[rowChoice];
             if (state.Rows != 0 && state.Rows != 10 && state.Rows != 20 && state.Rows != 50 && state.Rows != 100)
                 throw new IOException("Unsupported MBP row count.");
             if (state.Unit < 1 || state.Unit > 247 || state.ScanRate < 0 || state.ScanRate > 3600000)
@@ -94,7 +100,7 @@ namespace ModbusGetFree
             return state;
         }
 
-        static string ReadString(BinaryReader reader)
+        internal static string ReadString(BinaryReader reader)
         {
             // MFC CString: FF + FFFE 标记 Unicode，再跟变长字符数。
             if (reader.ReadByte() != 255 || reader.ReadUInt16() != 0xfffe)

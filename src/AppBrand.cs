@@ -7,7 +7,7 @@ namespace ModbusGetFree
 {
     public static class AppBrand
     {
-        public const string Version = "1.10";
+        public const string Version = "1.11";
         public static Icon LoadIcon()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "branding", "app.ico");
@@ -37,7 +37,7 @@ namespace ModbusGetFree
             using (var dialog = new EditorDialog("Help Topics", 520))
             {
                 var text = new TextBox { Multiline = true, ReadOnly = true, Dock = DockStyle.Fill, ScrollBars = ScrollBars.Vertical,
-                    Text = Language.Chinese ? "ModbusGetFree\r\n\r\n连接：选择串口、波特率、校验和停止位。演示模式使用模拟从站。\r\n\r\nF8：设置从站地址、功能码、起始地址、数量和扫描周期。协议地址从 0 开始。\r\nF5 快速连接，F4 断开连接。禁用轮询时可按 F6 单次读写。\r\n\r\n右键点击数值可设置格式、字节序、字体、颜色和数值换算。\r\n\r\n05/06 写入单个值，也可选择 15/16；15/16/23 支持打开和保存数值列表。22 提供 AND/OR 掩码位。\r\n\r\n测试中心发送十六进制命令，可附加校验。停止通信记录捕获不会停止轮询。\r\n\r\n数据窗口保存为 .mpdoc，工作区保存为 .mprtu，支持导入兼容的 .mbp 寄存器文件。\r\n\r\nLanguage 可切换 10 种语言，默认英语，并自动保存选择。\r\n\r\n同一串口一次只能由一个程序使用。" : Language.HelpText };
+                    Text = Language.Chinese ? "ModbusGetFree\r\n\r\n连接：选择串口、波特率、校验和停止位。演示模式使用模拟从站。\r\n\r\nF8：设置从站地址、功能码、起始地址、数量和扫描周期。协议地址从 0 开始。\r\nF5 快速连接，F4 断开连接。禁用轮询时可按 F6 单次读写。\r\n\r\n右键点击数值可设置格式、字节序、字体、颜色和数值换算。\r\n\r\n05/06 写入单个值，也可选择 15/16；15/16/23 支持打开和保存数值列表。22 提供 AND/OR 掩码位。\r\n\r\n测试中心发送十六进制命令，可附加校验。停止通信记录捕获不会停止轮询。\r\n\r\n数据窗口支持 .mpdoc 和 .mbp；MBP 保存保留原版本，另存为可选择 v7、v9、v12 XML。工作区保存为 .mprtu。\r\n\r\nLanguage 可切换 10 种语言，默认英语，并自动保存选择。\r\n\r\n同一串口一次只能由一个程序使用。" : Language.HelpText };
                 dialog.Controls.Clear(); dialog.Controls.Add(text); dialog.ShowDialog(this);
             }
         }

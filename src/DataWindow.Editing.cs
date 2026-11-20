@@ -15,12 +15,16 @@ namespace ModbusGetFree
         public void SaveDocument(bool saveAs)
         {
             string file = DocumentPath;
+            int version = file != null && string.Equals(Path.GetExtension(file), ".mbp", StringComparison.OrdinalIgnoreCase) ? State.MbpVersion : 0;
             if (saveAs || file == null)
             {
                 using (var d = new SaveFileDialog
                 {
-                    Filter = "RTU Data Window|*.mpdoc",
-                    FileName = State.Title + ".mpdoc"
+                    Filter = "ModbusGetFree document (*.mpdoc)|*.mpdoc|Modbus Poll v7 (*.mbp)|*.mbp|Modbus Poll v9 (*.mbp)|*.mbp|Modbus Poll v12 XML (*.mbp)|*.mbp",
+                    FilterIndex = version == 7 ? 2 : version == 9 ? 3 : version == 12 ? 4 : 1,
+                    FileName = file == null ? State.Title : Path.GetFileNameWithoutExtension(file),
+                    AddExtension = true,
+                    OverwritePrompt = true
                 }
 
                 )
@@ -31,16 +35,30 @@ namespace ModbusGetFree
                     }
 
                     file = d.FileName;
+                    version = new[] { 0, 7, 9, 12 }[d.FilterIndex - 1];
+                    string expected = version == 0 ? ".mpdoc" : ".mbp";
+                    if (!string.Equals(Path.GetExtension(file), expected, StringComparison.OrdinalIgnoreCase))
+                    {
+                        LocalMessageBox.Show(this, Language.Chinese ? "文件扩展名与所选格式不符，请重新选择。" : "The file extension does not match the selected format. Please choose again.", "Save Error");
+                        return;
+                    }
                 }
             }
 
-            using (var stream = File.Create(file))
+            try
             {
-                new XmlSerializer(typeof(DocumentState)).Serialize(stream, Snapshot());
+                string warning = version == 0 ? null : MbpFile.ConversionWarning(State, version);
+                if (warning != null && LocalMessageBox.Show(this, warning, "Save As", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+                if (version != 0) MbpFile.Save(file, Snapshot(), version);
+                else using (var stream = new MemoryStream())
+                {
+                    new XmlSerializer(typeof(DocumentState)).Serialize(stream, Snapshot());
+                    MbpFile.WriteAtomic(file, stream.ToArray());
+                }
+                DocumentPath = file;
+                host.RememberFile(file);
             }
-
-            DocumentPath = file;
-            host.RememberFile(file);
+            catch (Exception ex) { LocalMessageBox.Show(this, ex.Message, "Save Error"); }
         }
 
         public void Cut()

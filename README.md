@@ -36,7 +36,7 @@ Run `ModbusGetFree.exe`. Build with `./build.ps1` in PowerShell using the Window
 - FC22: AND/OR masks with 32 individual bit controls.
 - FC23: separate read/write ranges, typed write editing and separate read results.
 - Independent display formats, scaling, fonts, colors, charting, traffic capture and a raw Test Center.
-- Save data windows as `.mpdoc`, workspaces as `.mprtu`; import supported V7.x/V9.x `.mbp` register archives. Supported imports include FC03/04 and verified 16-bit, float32 and unsigned32 formats. Unsupported layouts/scaling are rejected.
+- Save data windows as `.mpdoc` or `.mbp`, and workspaces as `.mprtu`. MBP Save retains the source archive version; Save As offers v7, v9 and v12 XML. MBP currently supports FC03/04, 1–125 registers and all 28 verified display-format/byte-order combinations. Unsupported settings are rejected or explicitly reported. See [v1.11 release notes](https://github.com/web110/ModbusGetFree/releases/tag/v1.11).
 
 Help Topics is built into the application. This README is developer documentation and is not linked from Help.
 

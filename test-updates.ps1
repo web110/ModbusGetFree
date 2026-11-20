@@ -5,7 +5,9 @@ $directory = Join-Path $PSScriptRoot ('tests\run\updates-' + (Get-Date -Format '
 New-Item -ItemType Directory -Force "$directory\payload" | Out-Null
 Copy-Item "$PSScriptRoot\ModbusGetFree.exe" "$directory\ModbusGetFree.exe"
 # An isolated fixture is never published. Its assembly name/version exercise package validation.
-'[assembly:System.Reflection.AssemblyVersion("1.11.0.0")] public class UpdateFixture { public static void Main() {} }' | Set-Content "$directory\payload\Fixture.cs"
+$currentVersion = [version]([Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\ModbusGetFree.exe").FileVersion)
+$fixtureVersion = "{0}.{1}.0.0" -f $currentVersion.Major, ($currentVersion.Minor + 1)
+('[assembly:System.Reflection.AssemblyVersion("{0}")] public class UpdateFixture {{ public static void Main() {{}} }}' -f $fixtureVersion) | Set-Content "$directory\payload\Fixture.cs"
 & $compiler /nologo /target:winexe "/out:$directory\payload\ModbusGetFree.exe" "$directory\payload\Fixture.cs"
 if ($LASTEXITCODE -ne 0) { throw 'Fixture build failed.' }
 & $compiler /nologo /utf8output /target:exe "/out:$directory\UpdateTests.exe" "/reference:$PSScriptRoot\ModbusGetFree.exe" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Core.dll /reference:System.Xml.dll /reference:System.IO.Compression.dll /reference:System.IO.Compression.FileSystem.dll "$PSScriptRoot\tests\UpdateTests.cs"

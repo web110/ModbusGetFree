@@ -7,6 +7,9 @@ namespace ModbusGetFree
     /// </summary>
     public class DocumentState
     {
+        // Source archive retained through workspace/MPDOC saves so Save can preserve MBP metadata.
+        public int MbpVersion;
+        public byte[] MbpOriginal;
         public List<RegisterDefinition> Definitions = new List<RegisterDefinition>();
         public string Title = "";
         public int Unit = 1;

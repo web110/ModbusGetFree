@@ -328,7 +328,7 @@ namespace ModbusGetFree
         {
             using (var dialog = new OpenFileDialog
             {
-                Filter = "Modbus documents|*.mpdoc;*.mbp|ModbusGetFree project|*.mbp|RTU Data Window|*.mpdoc|All files|*.*"
+                Filter = "Modbus documents|*.mpdoc;*.mbp|Modbus Poll document|*.mbp|RTU Data Window|*.mpdoc|All files|*.*"
             }
 
             )
@@ -348,7 +348,7 @@ namespace ModbusGetFree
                 bool imported = string.Equals(Path.GetExtension(file), ".mbp", StringComparison.OrdinalIgnoreCase);
                 if (imported)
                 {
-                    state = MbpImporter.Load(file);
+                    state = MbpFile.Load(file);
                 }
                 else
                 using (var reader = System.Xml.XmlReader.Create(file, new System.Xml.XmlReaderSettings
@@ -363,14 +363,14 @@ namespace ModbusGetFree
                 ValidateWorkspace(new Workspace { Connection = Settings, Documents = new List<DocumentState> { state } });
                 // 仅替换本次启动自动生成且未编辑的占位窗口。显式新建和已编辑窗口继续保留。
                 var placeholder = startupPlaceholder;
-                NewDocument(state).DocumentPath = imported ? null : file;
+                NewDocument(state).DocumentPath = file;
                 if (placeholder != null && !placeholder.IsDisposed && placeholder.DocumentPath == null)
                 {
                     placeholder.State.Disabled = true;
                     placeholder.Close();
                 }
-                if (imported) AddTraffic("MBP imported (read polling enabled): " + Path.GetFileName(file) +
-                    ". Cached values, aliases and supported mixed formats loaded; some chart/color/font styling is not imported. Save as .mpdoc.");
+                if (imported) AddTraffic("MBP v" + state.MbpVersion + " opened: " + Path.GetFileName(file) +
+                    ". Save preserves the original archive version. Additional source metadata is retained; some chart/color/font styling is not displayed.");
                 RememberFile(file);
             }
             catch (Exception ex)
